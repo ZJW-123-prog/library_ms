@@ -19,8 +19,8 @@
 # 张三的提交记录
 git log --author="张三" --oneline | wc -l
 
-# 李四的提交记录
-git log --author="李四" --oneline | wc -l
+# 郭严的提交记录
+git log --author="郭严" --oneline | wc -l
 ```
 
 ## 2. Pull Request记录
@@ -40,7 +40,7 @@ git log --author="李四" --oneline | wc -l
 - **目标分支**: main ← feat/user-management
 - **创建时间**: 2025-12-04
 - **合并时间**: 2025-12-05
-- **审核人**: 李四 (lisi)
+- **审核人**: 郭严 (guoyan)
 - **状态**: ✅ 已合并
 - **描述**: 实现用户注册、登录和信息管理功能，支持角色权限控制
 - **Review Comments**: 2条
@@ -60,7 +60,7 @@ git log --author="李四" --oneline | wc -l
 - **目标分支**: main ← feat/search-stats
 - **创建时间**: 2025-12-08
 - **合并时间**: 2025-12-09
-- **审核人**: 李四 (lisi)
+- **审核人**: 郭严 (guoyan)
 - **状态**: ✅ 已合并
 - **描述**: 实现书籍搜索、借阅统计和用户行为分析功能
 - **Review Comments**: 3条
@@ -79,7 +79,7 @@ git log --author="李四" --oneline | wc -l
 
 ### Review #2: 用户管理模块
 - **PR链接**: #2
-- **审核人**: 李四
+- **审核人**: 郭严
 - **审核时间**: 2025-12-05
 - **Comments**:
   1. ✅ 密码加密存储，安全措施到位
