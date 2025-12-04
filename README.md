@@ -12,6 +12,17 @@
 - **开发工具**: Visual Studio Code, Git, GitHub
 - **AI辅助工具**: GitHub Copilot, ChatGPT 4o, Cursor (代码生成、调试、文档编写)
 
+## 如何查看提交历史
+
+在GitHub上查看项目提交历史的步骤：
+
+1. 确保您在正确的仓库页面：https://github.com/ZJW-123-prog/library_ms
+2. 切换到 `feat/book-crud` 分支（如果尚未在该分支）
+3. 在页面顶部的导航栏中，点击 **Code** 标签
+4. 在文件列表页面的顶部，找到分支选择器（显示为 "feat/book-crud"）
+5. 分支选择器右侧有一个 **Commits** 链接，点击它即可查看所有提交记录
+6. 在提交列表中，您可以看到所有的协作记录更新，包括团队成员信息、PR记录等
+
 ## 功能模块
 
 ### 1. 用户管理
