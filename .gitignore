@@ -1,7 +1,46 @@
+# 虚拟环境
 venv/
+env/
+.env
+
+# Python编译文件
 __pycache__/
-db.sqlite3
-media/
+*.py[cod]
+*$py.class
+
+# Django相关
 *.log
 local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# 操作系统文件
 .DS_Store
+Thumbs.db
+
+# IDE配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 测试覆盖报告
+htmlcov/
+.coverage
+
+# 其他
+*.bak
+*.tmp
+*.old
+
+# Docker相关（如果使用）
+.dockerignore
+Dockerfile
+
+# CI/CD配置
+.github/
+.gitlab-ci.yml
+
