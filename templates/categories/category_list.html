@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}分类管理{% endblock %}
+{% block content %}
+<h2>分类列表</h2>
+<table>
+  <thead><tr><th>ID</th><th>名称</th><th>描述</th></tr></thead>
+  <tbody>
+  {% for c in categories %}
+    <tr><td>{{ c.id }}</td><td>{{ c.name }}</td><td>{{ c.description|linebreaksbr }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'categories:category_add' %}">新增分类</a>
+{% endblock %}

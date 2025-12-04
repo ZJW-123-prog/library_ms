@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}确认还书{% endblock %}
+{% block content %}
+<h2>确认还书</h2>
+<p>用户：{{ record.user.username }}</p>
+<p>图书：《{{ record.book.title }}》</p>
+<p>借出日期：{{ record.borrow_date|date:'Y-m-d' }}</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">确认还书</button>
+</form>
+<a href="{% url 'borrows:borrow_list' %}">取消</a>
+{% endblock %}

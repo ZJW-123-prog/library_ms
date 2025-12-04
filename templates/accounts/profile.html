@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}个人中心{% endblock %}
+{% block content %}
+<h2>欢迎 {{ user.username }}！</h2>
+<p>手机：{{ user.phone|default:'未填写' }}</p>
+<p>邮箱：{{ user.email }}</p>
+<a href="{% url 'accounts:logout' %}">退出登录</a>
+{% endblock %}

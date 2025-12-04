@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}图书管理系统{% endblock %}</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:40px;}
+    nav a{margin-right:15px;}
+    .error{color:red;}
+    .success{color:green;}
+    table{border-collapse:collapse;width:100%;}
+    th,td{border:1px solid #ccc;padding:8px;text-align:left;}
+    .pagination a{margin:0 5px;}
+  </style>
+</head>
+<body>
+  <nav>
+    {% if user.is_authenticated %}
+      <!-- 已登录用户的导航菜单 -->
+      <a href="{% url 'books:book_list' %}">图书</a>
+      <a href="{% url 'borrows:borrow_list' %}">借阅</a>
+      
+      <!-- 管理员专用菜单 -->
+      {% if user.role == 'admin' %}
+        <a href="{% url 'categories:category_list' %}">分类</a>
+        <a href="{% url 'admins:user_list' %}">用户管理</a>
+        <a href="{% url 'borrows:borrow_approval_list' %}">借阅审批</a>
+        <a href="{% url 'borrows:return_request_list' %}">还书确认</a>
+      {% endif %}
+      
+      <!-- 所有已登录用户都能看到的菜单 -->
+      <a href="{% url 'accounts:profile' %}">个人中心</a>
+      <a href="{% url 'accounts:logout' %}">退出</a>
+      <span style="margin-left:20px; color:#666;">欢迎，{{ user.username }}</span>
+    {% else %}
+      <!-- 未登录用户只显示登录和注册 -->
+      <a href="{% url 'accounts:login' %}">登录</a>
+      <a href="{% url 'accounts:register' %}">注册</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% if messages %}
+    {% for message in messages %}
+      <p class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+  {% block content %}{% endblock %}
+</body>
+</html>

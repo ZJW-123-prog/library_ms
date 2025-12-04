@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}图书列表{% endblock %}
+{% block content %}
+<h2>图书列表</h2>
+<form method="get">
+  <input type="text" name="kw" placeholder="书名关键词" value="{{ kw }}">
+  <select name="category">
+    <option value="">全部分类</option>
+    {% for c in categories %}
+      <option value="{{ c.pk }}" {% if request.GET.category == c.pk|stringformat:'s' %}selected{% endif %}>{{ c.name }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">搜索</button>
+</form>
+<table>
+  <thead><tr><th>ID</th><th>书名</th><th>作者</th><th>分类</th><th>在馆</th><th>状态</th><th>操作</th></tr></thead>
+  <tbody>
+  {% for book in books %}
+    <tr>
+      <td>{{ book.id }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.author }}</td>
+      <td>{{ book.category.name|default:'无' }}</td>
+      <td>{{ book.available }}/{{ book.total }}</td>
+      <td>{{ book.get_status_display }}</td>
+      <td>
+        {% if request.user.role == 'admin' %}
+          <a href="{% url 'books:book_edit' book.pk %}">编辑</a> |
+          <a href="{% url 'books:book_delete' book.pk %}">删除</a>
+        {% else %}
+          {% if book.available > 0 %}
+            <a href="{% url 'borrows:borrow_request' book.pk %}">借阅</a>
+          {% else %}
+            无库存
+          {% endif %}
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+  {% if books.has_previous %}
+    <a href="?page={{ books.previous_page_number }}{% if request.GET.kw %}&kw={{ request.GET.kw }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">上一页</a>
+  {% endif %}
+  <span>第 {{ books.number }} 页 / 共 {{ books.paginator.num_pages }} 页</span>
+  {% if books.has_next %}
+    <a href="?page={{ books.next_page_number }}{% if request.GET.kw %}&kw={{ request.GET.kw }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">下一页</a>
+  {% endif %}
+</div>
+<a href="{% url 'books:book_add' %}">新增图书</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}确认还书{% endblock %}
+
+{% block content %}
+<h1>确认还书</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">还书详情</h5>
+        <p><strong>记录ID：</strong>{{ record.id }}</p>
+        <p><strong>用户：</strong>{{ record.user.username }}</p>
+        <p><strong>图书：</strong>{{ record.book.title }}</p>
+        <p><strong>图书作者：</strong>{{ record.book.author }}</p>
+        <p><strong>借阅日期：</strong>{{ record.borrow_date }}</p>
+        <p><strong>应还日期：</strong>{{ record.due_date }}</p>
+        <p><strong>申请时间：</strong>{{ record.updated_at }}</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <p>您确定要确认此还书申请吗？</p>
+            <button type="submit" class="btn btn-primary">确认还书</button>
+            <a href="{% url 'borrows:return_request_list' %}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

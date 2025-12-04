@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if action == 'approve' %}批准借阅申请{% else %}拒绝借阅申请{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if action == 'approve' %}批准借阅申请{% else %}拒绝借阅申请{% endif %}</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">申请详情</h5>
+        <p><strong>申请ID：</strong>{{ record.id }}</p>
+        <p><strong>用户：</strong>{{ record.user.username }}</p>
+        <p><strong>图书：</strong>{{ record.book.title }}</p>
+        <p><strong>图书作者：</strong>{{ record.book.author }}</p>
+        <p><strong>当前库存：</strong>{{ record.book.available }}</p>
+        <p><strong>申请时间：</strong>{{ record.created_at }}</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <p>您确定要{% if action == 'approve' %}批准{% else %}拒绝{% endif %}此借阅申请吗？</p>
+            <button type="submit" class="btn {% if action == 'approve' %}btn-success{% else %}btn-danger{% endif %}">
+                确认{% if action == 'approve' %}批准{% else %}拒绝{% endif %}
+            </button>
+            <a href="{% url 'borrows:borrow_approval_list' %}" class="btn btn-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

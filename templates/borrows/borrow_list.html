@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}借阅记录{% endblock %}
+{% block content %}
+<h2>借阅记录</h2>
+<table>
+  <thead><tr><th>ID</th><th>用户</th><th>图书</th><th>借出日期</th><th>应还日期</th><th>状态</th><th>操作</th></tr></thead>
+  <tbody>
+  {% for r in records %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.user.username }}</td>
+      <td>《{{ r.book.title }}》</td>
+      <td>{{ r.borrow_date|date:'Y-m-d' }}</td>
+      <td>{{ r.due_date|date:'Y-m-d' }}</td>
+      <td>{{ r.get_status_display }}</td>
+      <td>
+        {% if user.role == 'admin' %}
+          {% if r.status == 'on' %}
+            <a href="{% url 'borrows:borrow_return' r.pk %}" class="btn btn-danger btn-sm">直接还书</a>
+          {% else %}
+            已还
+          {% endif %}
+        {% else %}
+          {% if r.status == 'on' %}
+            {% if r.return_request_status == 'requested' %}
+              待确认还书
+            {% else %}
+              <a href="{% url 'borrows:return_request' r.id %}" class="btn btn-primary btn-sm">申请还书</a>
+            {% endif %}
+          {% else %}
+            已还
+          {% endif %}
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'borrows:borrow_add' %}">新增借阅</a>
+{% endblock %}

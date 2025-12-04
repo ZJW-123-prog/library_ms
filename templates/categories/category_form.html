@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}新增分类{% endblock %}
+{% block content %}
+<h2>新增分类</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>名称：<input type="text" name="name" required></label><br>
+  <label>描述：<textarea name="description" rows="3"></textarea></label><br>
+  <button type="submit">保存</button>
+</form>
+<a href="{% url 'categories:category_list' %}">返回列表</a>
+{% endblock %}
