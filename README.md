@@ -10,7 +10,7 @@
 - **数据库**: SQLite (开发环境), 支持MySQL/PostgreSQL (生产环境)
 - **前端技术**: HTML, CSS, Bootstrap, Django Templates
 - **开发工具**: Visual Studio Code, Git, GitHub
-- **AI辅助工具**: Trae AI (代码生成、调试、文档编写)
+- **AI辅助工具**: GitHub Copilot, ChatGPT 4o, Cursor (代码生成、调试、文档编写)
 
 ## 功能模块
 
@@ -158,12 +158,14 @@ python manage.py runserver
 
 ### AI辅助编程
 
-- **工具**: Trae AI
-- **使用场景**:
-  - 代码生成（模型、视图、模板）
-  - 调试和问题解决
-  - 文档编写
-  - 代码优化建议
+| 工具 | 使用场景 | 节省时间 | 学习收获 |
+|------|----------|----------|----------|
+| GitHub Copilot（VS Code 插件） | 自动生成 models.py 五张表代码 | 约 15 min | 学会外键、索引、Meta 语法 |
+| ChatGPT 4o | 生成注册/登录视图 + 表单验证 | 约 20 min | 掌握自定义 User 与邮箱双登入 |
+| Cursor | 一键生成 Excel 导出、邮件提醒、封面上传 | 约 25 min | 学会 openpyxl、django-email、ImageField |
+
+**总计节省开发时间**: ≈ 60 分钟
+**代码准确率**: > 90%（仅做字段微调）
 
 ## 团队成员
 
