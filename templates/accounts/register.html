@@ -1,11 +1,45 @@
 {% extends 'base.html' %}
 {% block title %}用户注册{% endblock %}
 {% block content %}
-<h2>用户注册</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">注册</button>
-</form>
-<p>已有账号？<a href="{% url 'accounts:login' %}">立即登录</a></p>
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+      <div class="card-header bg-primary text-white">
+        <h3 class="text-center font-weight-light my-4">
+          <i class="fa fa-user-plus"></i> 用户注册
+        </h3>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          
+          {% for field in form %}
+            <div class="form-floating mb-3">
+              {{ field }}
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}
+              </label>
+              {% if field.errors %}
+                <div class="text-danger text-sm mt-1">
+                  {{ field.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          
+          <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button class="btn btn-primary w-100" type="submit">
+              <i class="fa fa-user-plus"></i> 注册
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center py-3">
+        <div class="small">
+          <p>已有账号？ <a href="{% url 'accounts:login' %}" class="text-primary">立即登录</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

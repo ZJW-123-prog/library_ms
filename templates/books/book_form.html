@@ -1,27 +1,110 @@
 {% extends 'base.html' %}
 {% block title %}{% if book %}编辑{% else %}新增{% endif %}图书{% endblock %}
 {% block content %}
-<h2>{% if book %}编辑{% else %}新增{% endif %}图书</h2>
-{% if messages %}
-  {% for m in messages %}
-    <p class="error">{{ m }}</p>
-  {% endfor %}
-{% endif %}
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <label>书名：<input type="text" name="title" value="{{ book.title|default:'' }}" required></label><br>
-  <label>作者：<input type="text" name="author" value="{{ book.author|default:'' }}"></label><br>
-  <label>ISBN：<input type="text" name="isbn" value="{{ book.isbn|default:'' }}" placeholder="留空自动生成"></label><br>
-  <label>分类：
-    <select name="category" required>
-      <option value="">-- 请选择 --</option>
-      {% for c in categories %}
-        <option value="{{ c.pk }}"{% if book and book.category_id == c.pk %} selected{% endif %}>{{ c.name }}</option>
-      {% endfor %}
-    </select>
-  </label><br>
-  <label>总册数：<input type="number" name="total" value="{{ book.total|default:1 }}" min="1"></label><br>
-  <button type="submit">保存</button>
-</form>
-<a href="{% url 'books:book_list' %}">返回列表</a>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">
+          <i class="fa fa-book"></i> {% if book %}编辑{% else %}新增{% endif %}图书
+        </h4>
+      </div>
+      <div class="card-body">
+        {% if messages %}
+          {% for m in messages %}
+            <div class="alert alert-danger" role="alert">
+              {{ m }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+        <form method="post" enctype="multipart/form-data" class="row g-4">
+          {% csrf_token %}
+          
+          <!-- 封面上传预览 -->
+          <div class="col-md-4">
+            <div class="text-center">
+              <h6>封面图片</h6>
+              <div class="border border-2 border-dashed rounded-lg p-3 mb-3" style="background-color: #f8f9fa;">
+                <div id="coverPreview" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                  {% if book.cover %}<img src="{{ book.cover.url }}" class="img-fluid rounded" alt="封面图片">{% else %}<i class="fa fa-book text-muted" style="font-size: 3rem;"></i>{% endif %}
+                </div>
+              </div>
+              <input type="file" name="cover" class="form-control" accept="image/*" onchange="previewCover(this)">
+              <small class="text-muted d-block mt-1">支持JPG、PNG格式，建议尺寸300×400</small>
+            </div>
+          </div>
+          
+          <!-- 图书信息表单 -->
+          <div class="col-md-8">
+            <div class="row g-3">
+              <!-- 书名 -->
+              <div class="col-12">
+                <label for="title" class="form-label">书名 <span class="text-danger">*</span></label>
+                <input type="text" name="title" id="title" value="{{ book.title|default:'' }}" class="form-control" required>
+              </div>
+              
+              <!-- 作者 -->
+              <div class="col-12">
+                <label for="author" class="form-label">作者</label>
+                <input type="text" name="author" id="author" value="{{ book.author|default:'' }}" class="form-control">
+              </div>
+              
+              <!-- ISBN -->
+              <div class="col-12">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" name="isbn" id="isbn" value="{{ book.isbn|default:'' }}" class="form-control" placeholder="留空自动生成">
+              </div>
+              
+              <!-- 分类 -->
+              <div class="col-12">
+                <label for="category" class="form-label">分类 <span class="text-danger">*</span></label>
+                <select name="category" id="category" class="form-select" required>
+                  <option value="">-- 请选择 --</option>
+                  {% for c in categories %}
+                    <option value="{{ c.pk }}"{% if book and book.category_id == c.pk %} selected{% endif %}>{{ c.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              
+              <!-- 总册数 -->
+              <div class="col-12">
+                <label for="total" class="form-label">总册数 <span class="text-danger">*</span></label>
+                <input type="number" name="total" id="total" value="{{ book.total|default:1 }}" class="form-control" min="1" required>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="col-12">
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'books:book_list' %}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> 返回列表
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa fa-save"></i> {% if book %}更新{% else %}保存{% endif %}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 封面预览功能
+function previewCover(input) {
+  const preview = document.getElementById('coverPreview');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded" alt="封面预览">`;
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    preview.innerHTML = '<i class="fa fa-book text-muted" style="font-size: 3rem;"></i>';
+  }
+}
+</script>
 {% endblock %}

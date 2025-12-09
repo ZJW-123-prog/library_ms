@@ -35,6 +35,9 @@ def user_login(request):
             else:
                 return redirect('borrows:borrow_list')  # 普通用户跳转到借阅记录
         else:
+            # 清除现有的消息，避免重复显示
+            storage = messages.get_messages(request)
+            storage.used = True  # 标记消息已被使用
             messages.error(request, '用户名/密码错误')
     return render(request, 'accounts/login.html')
 

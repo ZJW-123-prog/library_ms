@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}申请还书{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- 页面标题区域 -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h3 mb-0">
+                <i class="fas fa-book-reader"></i> 申请还书
+            </h1>
+        </div>
+    </div>
+    
+    <!-- 还书申请确认卡片 -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <i class="fas fa-book-open" style="font-size: 4rem; color: #6c757d;"></i>
+            </div>
+            
+            <h5 class="card-title text-center mb-4">还书申请确认</h5>
+            
+            <div class="bg-light p-4 rounded mb-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>记录ID：</strong>{{ record.id }}</p>
+                        <p><strong>用户：</strong>{{ record.user.username }}</p>
+                        <p><strong>图书：</strong>{{ record.book.title }}</p>
+                        <p><strong>图书作者：</strong>{{ record.book.author }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>借阅日期：</strong>{{ record.borrow_date }}</p>
+                        <p><strong>应还日期：</strong>{{ record.due_date }}</p>
+                        <p><strong>当前状态：</strong>{{ record.get_status_display }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i> 提交还书申请后，需要等待管理员确认。确认后图书将从您的借阅记录中移除，库存将相应增加。
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-check-circle"></i> 确认申请还书
+                    </button>
+                    <a href="{% url 'borrows:borrow_list' %}" class="btn btn-secondary btn-lg ml-2">
+                        <i class="fas fa-times-circle"></i> 取消
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

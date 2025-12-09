@@ -1,44 +1,78 @@
 {% extends 'base.html' %}
 {% block title %}新增借阅{% endblock %}
 {% block content %}
-<h2>新增借阅</h2>
-<form method="post">
-  {% csrf_token %}
-  <label>用户：
-    <select name="user_id">
-      {% for u in users %}<option value="{{ u.pk }}">{{ u.username }}</option>{% endfor %}
-    </select>
-  </label><br>
-  <label>图书：
-    <select name="book_id" id="book-select">
-      {% for b in books %}<option value="{{ b.pk }}" data-available="{{ b.available }}">{{ b.title }}（可借{{ b.available }}册）</option>{% endfor %}
-    </select>
-  </label><br>
-  <label>借阅数量：
-    <input type="number" name="borrow_count" min="1" max="1" value="1" id="borrow-count">
-  </label><br>
-  <script>
-    // 动态更新借阅数量的最大值
-    document.getElementById('book-select').addEventListener('change', function() {
-      const selectedOption = this.options[this.selectedIndex];
+<div class="card shadow-lg border-0 rounded-lg mt-5">
+  <div class="card-header bg-primary text-white">
+    <h3 class="text-center font-weight-light my-4">
+      <i class="fa fa-exchange"></i> 新增借阅
+    </h3>
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="user_id" class="form-label h6">用户</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="fa fa-user"></i>
+          </span>
+          <select name="user_id" id="user_id" class="form-select form-select-lg">
+            {% for u in users %}<option value="{{ u.pk }}">{{ u.username }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="book-select" class="form-label h6">图书</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="fa fa-book"></i>
+          </span>
+          <select name="book_id" id="book-select" class="form-select form-select-lg">
+            {% for b in books %}<option value="{{ b.pk }}" data-available="{{ b.available }}">{{ b.title }}（可借{{ b.available }}册）</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="borrow-count" class="form-label h6">借阅数量</label>
+        <div class="input-group">
+          <span class="input-group-text bg-primary text-white">
+            <i class="fa fa-sort-numeric-asc"></i>
+          </span>
+          <input type="number" name="borrow_count" min="1" max="1" value="1" id="borrow-count" class="form-control form-control-lg">
+        </div>
+        <small class="text-muted mt-1 d-block">根据所选图书自动调整可借数量上限</small>
+      </div>
+      <div class="d-flex justify-content-between">
+        <a href="{% url 'borrows:borrow_list' %}" class="btn btn-secondary btn-lg">
+          <i class="fa fa-arrow-left"></i> 返回列表
+        </a>
+        <button type="submit" class="btn btn-primary btn-lg">
+          <i class="fa fa-check"></i> 提交借阅
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // 动态更新借阅数量的最大值
+  document.getElementById('book-select').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const availableCount = parseInt(selectedOption.getAttribute('data-available'));
+    const borrowCountInput = document.getElementById('borrow-count');
+    borrowCountInput.max = availableCount;
+    // 如果当前值超过新的最大值，重置为最大值
+    if (parseInt(borrowCountInput.value) > availableCount) {
+      borrowCountInput.value = availableCount;
+    }
+  });
+  // 页面加载时初始化最大值
+  window.addEventListener('DOMContentLoaded', function() {
+    const selectedOption = document.getElementById('book-select').options[0];
+    if (selectedOption) {
       const availableCount = parseInt(selectedOption.getAttribute('data-available'));
-      const borrowCountInput = document.getElementById('borrow-count');
-      borrowCountInput.max = availableCount;
-      // 如果当前值超过新的最大值，重置为最大值
-      if (parseInt(borrowCountInput.value) > availableCount) {
-        borrowCountInput.value = availableCount;
-      }
-    });
-    // 页面加载时初始化最大值
-    window.addEventListener('DOMContentLoaded', function() {
-      const selectedOption = document.getElementById('book-select').options[0];
-      if (selectedOption) {
-        const availableCount = parseInt(selectedOption.getAttribute('data-available'));
-        document.getElementById('borrow-count').max = availableCount;
-      }
-    });
-  </script>
-  <button type="submit">提交借阅</button>
-</form>
-<a href="{% url 'borrows:borrow_list' %}">返回列表</a>
+      document.getElementById('borrow-count').max = availableCount;
+    }
+  });
+</script>
 {% endblock %}

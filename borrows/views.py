@@ -71,12 +71,16 @@ def return_request(request, record_id):
         messages.warning(request, '您已经提交了还书申请，请等待管理员确认')
         return redirect('borrows:borrow_list')
     
-    # 更新还书申请状态
-    record.return_request_status = 'requested'
-    record.save()
+    if request.method == 'POST':
+        # 更新还书申请状态
+        record.return_request_status = 'requested'
+        record.save()
+        
+        messages.success(request, '还书申请已提交，请等待管理员确认')
+        return redirect('borrows:borrow_list')
     
-    messages.success(request, '还书申请已提交，请等待管理员确认')
-    return redirect('borrows:borrow_list')
+    # GET请求显示确认页面
+    return render(request, 'borrows/return_request.html', {'record': record})
 
 @admin_required
 def borrow_approval_list(request):
