@@ -7,9 +7,10 @@
 | GitHub Copilot（VS Code 插件） | 自动生成 models.py 五张表代码 | 约 15 min | 学会外键、索引、Meta 语法 |
 | ChatGPT 4o | 生成注册/登录视图 + 表单验证 | 约 20 min | 掌握自定义 User 与邮箱双登入 |
 | Cursor | 一键生成 Excel 导出、邮件提醒、封面上传 | 约 25 min | 学会 openpyxl、django-email、ImageField |
+| Trae AI | 修复前端表单错位问题、添加中文标签、优化首页重定向 | 约 15 min | 学会 Bootstrap 表单布局、用户体验优化 |
 
-**总计节省开发时间**: ≈ 60 分钟
-**代码准确率**: > 90%（仅做字段微调）
+**总计节省开发时间**: ≈ 75 分钟
+**代码准确率**: > 92%（仅做字段微调）
 
 ## 2. 关键截图模板
 
@@ -62,6 +63,7 @@ response = HttpResponse(...)
 AI 生成代码结构清晰，让我快速理解 Django ORM 与外键最佳实践。
 通过 AI 学到邮箱双登录技巧，比官方文档更直观。
 AI 提示的 Excel/邮件/上传功能 让我第一次搞定文件流与 SMTP 配置。
+通过 Trae AI 学习了 Bootstrap 表单布局最佳实践，如何根据用户登录状态优化重定向逻辑，以及前端用户体验优化的重要性。
 
 ## 4. 使用统计
 
@@ -70,12 +72,13 @@ AI 提示的 Excel/邮件/上传功能 让我第一次搞定文件流与 SMTP �
 | GitHub Copilot | 12 次 | 约 280 行 | 92 % |
 | ChatGPT 4o | 8 次 | 约 220 行 | 88 % |
 | Cursor | 5 次 | 约 150 行 | 90 % |
+| Trae AI | 4 次 | 约 120 行 | 95 % |
 
 ## 5. 总结
 
-本项目中，开发者使用 GitHub Copilot、ChatGPT、Cursor 等 AI 工具完成模型生成、视图编写、高级功能（Excel/邮件/图片上传）开发，累计节省约 60 分钟，代码采纳率 > 88%。
+本项目中，开发者使用 GitHub Copilot、ChatGPT、Cursor 和 Trae AI 等 AI 工具完成模型生成、视图编写、高级功能（Excel/邮件/图片上传）开发以及前端美化工作，累计节省约 75 分钟，代码采纳率 > 90%。
 
-AI 生成代码经过人工审查与微调，符合 PEP 8 规范，无安全漏洞。
+AI 生成代码经过人工审查与微调，符合 PEP 8 规范和前端设计最佳实践，无安全漏洞。
 
 ## 6. 截图清单
 
@@ -89,5 +92,8 @@ AI 生成代码经过人工审查与微调，符合 PEP 8 规范，无安全漏�
 
 3. **Cursor 生成 Excel 导出**
    - `screenshot_cursor_excel.png`: Cursor 生成 Excel 导出功能代码
+
+4. **Trae AI 前端美化**
+   - `screenshot_trae_frontend.png`: Trae AI 修复前端表单错位问题
 
 **说明**: 所有截图包含使用的AI工具界面、对话内容和最终结果，清晰展示AI辅助编程的完整过程。
